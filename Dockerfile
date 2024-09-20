@@ -37,6 +37,7 @@ RUN \
   pip install -U --no-cache-dir \
     pip \
     setuptools \
+    requests \
     wheel && \
   mkdir /app/deluge-src && \
   git clone https://github.com/deluge-torrent/deluge.git /app/deluge-src/ && \
