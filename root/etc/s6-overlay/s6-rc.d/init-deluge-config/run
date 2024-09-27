@@ -4,6 +4,9 @@
 if [[ ! -f /config/core.conf ]]; then
     cp /defaults/core.conf /config/core.conf
 fi
+if ls /config/plugins/ltConfig*.egg 1> /dev/null 2>&1; then
+    cp /defaults/ltConfig*.egg /config/plugins
+fi
 
 mkdir -p /run/deluged-temp
 

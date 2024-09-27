@@ -48,6 +48,12 @@ RUN \
   pip install /app/deluge-src && \
   pip install -U --no-cache-dir --find-links https://wheel-index.linuxserver.io/alpine-3.20/ \
     pygeoip && \
+  mkdir /app/lt-config_mhertz && \
+  cd /app/lt-config_mhertz && \
+  git clone https://github.com/mhertz/deluge-ltconfig.git . && \
+  python setup.py bdist_egg && \
+  cd /app/lt-config_mhertz/dist && \
+  mv ltConfig-*.egg /defaults/$(echo ltConfig-*.egg | sed 's/-py[0-9]\+\.[0-9]\+//') && \
   echo "**** grab GeoIP database ****" && \
   curl -L --retry 10 --retry-max-time 60 --retry-all-errors \
     "https://mailfud.org/geoip-legacy/GeoIP.dat.gz" \
@@ -67,6 +73,9 @@ LABEL maintainer="zakkarry"
 
 # add local files
 COPY root/ /
+
+# cleanup (remove root dir copy)
+RUN rm -rf /version.sh
 
 # add unrar
 COPY --from=unrar /usr/bin/unrar-alpine /usr/bin/unrar
